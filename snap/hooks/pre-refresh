@@ -1,0 +1,15 @@
+#!/bin/bash
+
+set -euo pipefail
+IFS=$'\n\t'
+
+echo "Starting pre refresh hook"
+
+PROCESS_NAME="/snap/google-chat-electron"
+
+if pgrep -f "$PROCESS_NAME" >/dev/null; then
+    echo "Warn: App found running, should be relaunched."
+    /snap/bin/google-chat-electron --relaunch
+fi
+
+echo "Finished pre refresh hook!"
