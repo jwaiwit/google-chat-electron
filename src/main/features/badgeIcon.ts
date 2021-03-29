@@ -1,6 +1,7 @@
 import {ipcMain, app, nativeImage, BrowserWindow, Tray} from 'electron';
 import path from 'path';
 
+// Decide app icon based on favicon URL
 const decideIcon = (href: string) => {
   let type = 'offline';
 
@@ -21,7 +22,6 @@ export default (window: BrowserWindow, trayIcon: Tray) => {
 
     const icon = nativeImage.createFromPath(path.join(app.getAppPath(), `resources/icons/${type}/256.png`))
     trayIcon.setImage(icon);
-    window.setIcon(icon);
   });
 
   ipcMain.on('unreadCount', (event, count: number) => {

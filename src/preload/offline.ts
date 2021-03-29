@@ -1,12 +1,14 @@
 import {ipcRenderer} from 'electron';
+import environment from "../environment";
 
-window.addEventListener('gchat:checkIfOnline', () => {
+// Listen to global event from offline.html
+window.addEventListener('app:checkIfOnline', () => {
   ipcRenderer.send('checkIfOnline')
 });
 
 ipcRenderer.on('onlineStatus', (event, online: boolean) => {
   if (online) {
-    window.location.replace('https://chat.google.com')
+    window.location.replace(environment.appUrl)
   } else {
     window.location.reload();
   }

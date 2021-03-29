@@ -7,6 +7,7 @@ import {autoLaunch} from './openAtLogin';
 import aboutPanel from './aboutPanel';
 import store from './../config';
 import {toggleExternalLinksGuard} from "./externalLinks";
+import environment from "../../environment";
 
 export default (window: BrowserWindow) => {
   const pkg = require(path.join(app.getAppPath(), 'package.json'));
@@ -14,6 +15,7 @@ export default (window: BrowserWindow) => {
 
   const relaunchApp = () => {
     app.relaunch({
+      // auto-launch adds the --hidden flag to the command during OS start
       // This will launch app without hidden flag
       args: process.argv.filter(flag => flag !== '--hidden')
     });
@@ -48,7 +50,7 @@ export default (window: BrowserWindow) => {
         {
           label: 'Sign Out',
           click: () => {
-            window.loadURL('https://www.google.com/accounts/Logout?continue=https://chat.google.com/')
+            window.loadURL(environment.logoutUrl)
           }
         },
         {
@@ -130,7 +132,7 @@ export default (window: BrowserWindow) => {
           label: 'Navigate to Home',
           accelerator: 'Alt+Home',
           click: () => {
-            window.loadURL('https://chat.google.com')
+            window.loadURL(environment.appUrl)
           }
         }
       ]
@@ -185,7 +187,7 @@ export default (window: BrowserWindow) => {
       label: 'Help',
       submenu: [
         {
-          label: 'Kodos Developer',
+          label: 'Say Thanks to Developer',
           click: () => {
             setImmediate(() => {
               shell.openExternal(pkg.homepage)
