@@ -1,6 +1,5 @@
 import path from 'path';
 import {app, BrowserWindow, nativeImage} from 'electron';
-import {userAgentString} from './features/userAgent';
 import store from './config';
 import environment from "../environment";
 
@@ -19,7 +18,7 @@ export default (url: string): BrowserWindow => {
     icon: nativeImage.createFromPath(path.join(app.getAppPath(), 'resources/icons/normal/256.png')),
     show: false,
     minHeight: 570,
-    minWidth: 400,
+    minWidth: 480,
     center: true,
     title: 'Google Chat',
     backgroundColor: '#E8EAED',
@@ -32,11 +31,7 @@ export default (url: string): BrowserWindow => {
     }
   });
 
-  window.loadURL(url, {
-    userAgent: userAgentString
-  });
-
-  window.webContents.setUserAgent(userAgentString);
+  window.loadURL(url);
 
   return window;
 };

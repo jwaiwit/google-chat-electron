@@ -20,15 +20,23 @@ export default (window: BrowserWindow) => {
       extractHostname(window.webContents.getURL()),
       'accounts.google.com',
       'accounts.youtube.com',
-      'chat.google.com'
+      'chat.google.com',
+      'mail.google.com'
     ];
 
-    if (url.startsWith('https://chat.google.com/api/get_attachment_url') ||
-      !whiteListDomains.includes(extractHostname(url))) {
+    const isDownloadUrl = url.includes('https://chat.google.com/u/0/api/get_attachment_url');
+
+    const isExternalUrl = extractHostname(url) === 'mail.google.com' &&
+      !url.startsWith('https://mail.google.com/chat')
+
+    const isNotWhitelistedDomain = !whiteListDomains.includes(extractHostname(url));
+
+    if (isExternalUrl || isDownloadUrl || isNotWhitelistedDomain) {
+      event.preventDefault();
+
       setImmediate(() => {
         shell.openExternal(url);
       })
-      event.preventDefault();
     }
   };
 
