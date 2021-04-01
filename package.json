@@ -22,7 +22,8 @@
     "build:snap-template": "bash ./snap/local/template.sh",
     "prebuild:snap": "yarn run build:snap-template",
     "build:snap": "sg lxd -c 'snapcraft --use-lxd'",
-    "build:snap-repack": "bash ./snap/local/repack.sh"
+    "build:snap-repack": "bash ./snap/local/repack.sh",
+    "debit": "npm run clean:dist && npm run build && npm run build:deb"
   },
   "repository": "https://github.com/ankurk91/google-chat-electron",
   "homepage": "https://github.com/ankurk91/google-chat-electron",
