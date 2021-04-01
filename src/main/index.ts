@@ -1,4 +1,5 @@
-import {app} from 'electron';
+import path from 'path';
+import {app, BrowserWindow} from 'electron';
 
 // Need to fix the paths before loading any other library
 // https://github.com/electron/electron/issues/23854
@@ -20,14 +21,16 @@ import badgeIcons from './features/badgeIcon';
 import closeToTray from './features/closeToTray';
 import setAppMenu from './features/appMenu';
 import overrideUserAgent from './features/userAgent';
-import setupOfflineHandlers, {checkForInternet} from './features/inOnline';
+//remove check online
+//import setupOfflineHandlers, {checkForInternet} from './features/inOnline';
 import logFirstLaunch from './features/firstLaunch';
 import handleNotification from './features/handleNotification';
 
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.
-let mainWindow = null;
+let mainWindow:BrowserWindow;
 let trayIcon = null;
+const fs = require('fs');
 
 // Features
 app.commandLine.appendSwitch('disk-cache-size', String(300 * 1024 * 1024));
@@ -38,8 +41,8 @@ if (enforceSingleInstance()) {
     .then(() => {
       overrideUserAgent();
       mainWindow = windowWrapper(environment.appUrl);
-      setupOfflineHandlers(mainWindow);
-      checkForInternet(mainWindow);
+      //setupOfflineHandlers(mainWindow);
+      //checkForInternet(mainWindow);
 
       trayIcon = setupTrayIcon(mainWindow);
       logFirstLaunch();
@@ -53,6 +56,10 @@ if (enforceSingleInstance()) {
       closeToTray(mainWindow);
       externalLinks(mainWindow);
       handleNotification(mainWindow);
+      // mainWindow.webContents.on('dom-ready', () => {        
+      //   const customScriptUrl = fs.readFileSync(path.join(app.getAppPath(), 'resources/js/customScript.js'), 'utf8');
+      //   mainWindow.webContents.executeJavaScript(customScriptUrl, true);
+      // })
     })
 }
 

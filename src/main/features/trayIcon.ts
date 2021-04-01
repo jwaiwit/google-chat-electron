@@ -6,15 +6,17 @@ export default (window: BrowserWindow) => {
 
   const handleIconClick = () => {
     if (window.isVisible() && window.isFocused()) {
-      window.minimize()
+      window.show()
+      window.focus()
     } else {
       window.show()
+      window.focus()
     }
   }
 
   trayIcon.setContextMenu(Menu.buildFromTemplate([
     {
-      label: 'Toggle',
+      label: 'Show',
       click: handleIconClick
     },
     {

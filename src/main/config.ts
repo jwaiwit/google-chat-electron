@@ -12,6 +12,7 @@ type StoreType = {
     autoCheckForUpdates: boolean,
     launchAtLogin: boolean,
     startHidden: boolean,
+    userIndex:number,
   }
 }
 

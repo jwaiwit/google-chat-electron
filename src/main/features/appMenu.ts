@@ -172,6 +172,28 @@ export default (window: BrowserWindow) => {
             store.set('app.startHidden', menuItem.checked)
           }
         },
+        {
+          label: 'User index',
+          type: 'submenu',
+          submenu: [
+            {
+              label: '0',
+              type: 'radio',              
+              checked: store.get('app.userIndex') == 0,
+              click: (menuItem) => {
+                store.set('app.userIndex', 0)
+              }
+            },
+            {
+              label: '1',
+              type: 'radio',              
+              checked: store.get('app.userIndex') == 1,
+              click: (menuItem) => {
+                store.set('app.userIndex', 1)
+              }
+            },            
+          ]
+        },        
       ]
     },
     {

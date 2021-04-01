@@ -1,5 +1,6 @@
 import {BrowserWindow, dialog, shell} from 'electron';
 import log from "electron-log";
+import store from './../config';
 
 let guardAgainstExternalLinks: Boolean = true;
 const RE_GUARD_IN_MINUTES: number = 5;
@@ -24,14 +25,21 @@ export default (window: BrowserWindow) => {
       'mail.google.com'
     ];
 
-    const isDownloadUrl = url.includes('https://chat.google.com/u/0/api/get_attachment_url');
+    const checkDownloadUrl = 'https://chat.google.com/u/0/api/get_attachment_url';
 
+    if (url.includes(checkDownloadUrl)) {
+			url = url.replace(checkDownloadUrl, "https://chat.google.com/u/" + String(store.get('app.userIndex')) + "/api/get_attachment_url")
+		}
+
+    const isDownloadUrl = url.includes('api/get_attachment_url');
     const isExternalUrl = extractHostname(url) === 'mail.google.com' &&
       !url.startsWith('https://mail.google.com/chat')
 
     const isNotWhitelistedDomain = !whiteListDomains.includes(extractHostname(url));
-
-    if (isExternalUrl || isDownloadUrl || isNotWhitelistedDomain) {
+    if (url == "about:blank#blocked" || url == "about:blank") {		
+      event.preventDefault()      
+    }
+    else if (isExternalUrl || isDownloadUrl || isNotWhitelistedDomain) {
       event.preventDefault();
 
       setImmediate(() => {
