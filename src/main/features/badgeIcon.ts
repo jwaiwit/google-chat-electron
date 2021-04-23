@@ -44,7 +44,7 @@ const setTray = (trayIcon: Tray, state: string) => {
 
 export default (window: BrowserWindow, trayIcon: Tray) => {
 
-  ipcMain.on('favicon-changed', (evt, href) => {
+  ipcMain.on('faviconChanged', (evt, href) => {
     const type = decideIcon(String(href));
 
     if (type == 'badge') {

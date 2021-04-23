@@ -1,4 +1,4 @@
-name: release
+name: release-linux
 
 on:
   push:
@@ -6,8 +6,8 @@ on:
       - '*'
 
 jobs:
-  release:
-    name: release
+  release-linux:
+    name: release-linux
     runs-on: ubuntu-20.04
     timeout-minutes: 30
 
@@ -23,11 +23,11 @@ jobs:
       - name: Install dependencies with yarn
         run: yarn install --non-interactive --frozen-lockfile
 
-      - name: Build for linux
+      - name: Pack for linux
         run: |
           rm -rf ./.github
           rm -rf ./tests
-          yarn run build
+          yarn run pack:linux
 
       - name: Create debian package
         run: |
@@ -40,7 +40,6 @@ jobs:
           repo_token: ${{ secrets.GITHUB_TOKEN }}
           file: './dist/installers/*.*'
           tag: ${{ github.ref }}
-          overwrite: true
           file_glob: true
 
       - name: Prepare for building snap package
@@ -61,4 +60,3 @@ jobs:
           store_login: ${{ secrets.SNAPCRAFT_TOKEN }}
           snap: ${{ steps.snapcraft.outputs.snap }}
           release: stable
-

@@ -25,10 +25,11 @@ import overrideUserAgent from './features/userAgent';
 //import setupOfflineHandlers, {checkForInternet} from './features/inOnline';
 import logFirstLaunch from './features/firstLaunch';
 import handleNotification from './features/handleNotification';
+import {enforceMacOSAppLocation} from "electron-util";
 
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.
-let mainWindow:BrowserWindow;
+let mainWindow: BrowserWindow | null = null;
 let trayIcon = null;
 const fs = require('fs');
 
@@ -60,9 +61,16 @@ if (enforceSingleInstance()) {
       //   const customScriptUrl = fs.readFileSync(path.join(app.getAppPath(), 'resources/js/customScript.js'), 'utf8');
       //   mainWindow.webContents.executeJavaScript(customScriptUrl, true);
       // })
+      //enforceMacOSAppLocation()
     })
 }
 
 app.on('window-all-closed', () => {
   app.exit();
-})
+});
+
+app.on('activate', () => {
+  if (mainWindow) {
+    mainWindow.show();
+  }
+});

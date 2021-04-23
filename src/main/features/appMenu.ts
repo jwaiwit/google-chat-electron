@@ -11,12 +11,11 @@ import environment from "../../environment";
 
 export default (window: BrowserWindow) => {
   const pkg = require(path.join(app.getAppPath(), 'package.json'));
-  const isSnap = require('electron-is-snap').isSnap;
 
   const relaunchApp = () => {
     app.relaunch({
       // auto-launch adds the --hidden flag to the command during OS start
-      // This will launch app without hidden flag
+      // This will launch the app without hidden flag
       args: process.argv.filter(flag => flag !== '--hidden')
     });
     app.exit();
@@ -38,7 +37,7 @@ export default (window: BrowserWindow) => {
       submenu: [
         {
           label: 'Close To Tray',
-          accelerator: 'Ctrl+W',
+          accelerator: 'CommandOrControl+W',
           click: () => {
             window.hide()
           }
@@ -58,7 +57,7 @@ export default (window: BrowserWindow) => {
         },
         {
           label: 'Quit',
-          accelerator: 'Ctrl+Q',
+          accelerator: 'CommandOrControl+Q',
           click: () => {
             app.exit();
           }
@@ -79,7 +78,7 @@ export default (window: BrowserWindow) => {
         },
         {
           label: 'Search',
-          accelerator: 'Ctrl+F',
+          accelerator: 'CommandOrControl+F',
           click: () => {
             window.webContents.send('searchShortcut');
           }
@@ -92,7 +91,7 @@ export default (window: BrowserWindow) => {
         },
         {
           role: 'toggleDevTools',
-          visible: !app.isPackaged || app.commandLine.hasSwitch('debug')
+          visible: environment.isDev
         },
         {
           type: 'separator'
@@ -143,7 +142,7 @@ export default (window: BrowserWindow) => {
         {
           label: 'Auto check for Updates',
           type: 'checkbox',
-          enabled: !isSnap,
+          enabled: !environment.isSnap,
           checked: store.get('app.autoCheckForUpdates'),
           click: (menuItem) => {
             store.set('app.autoCheckForUpdates', menuItem.checked)
@@ -209,7 +208,7 @@ export default (window: BrowserWindow) => {
         },
         {
           label: 'Check For Updates',
-          enabled: !isSnap,
+          enabled: !environment.isSnap,
           click: () => {
             checkForUpdates({
               silent: false
@@ -246,7 +245,11 @@ export default (window: BrowserWindow) => {
             {
               label: 'Show Logs in File Manager',
               click: () => {
-                shell.showItemInFolder(path.join(app.getPath('userData'), 'logs'))
+                if (process.platform === 'darwin') {
+                  shell.showItemInFolder(app.getPath('logs'))
+                } else {
+                  shell.showItemInFolder(path.join(app.getPath('userData'), 'logs'))
+                }
               }
             },
             {
@@ -280,7 +283,7 @@ export default (window: BrowserWindow) => {
           type: 'separator'
         },
         {
-          label: `Version ${app.getVersion()}${!app.isPackaged ? '-(dev)' : ''}`,
+          label: `Version ${app.getVersion()}${ environment.isDev ? '-(dev)' : ''}`,
           enabled: false
         },
       ]

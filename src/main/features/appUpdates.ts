@@ -1,14 +1,14 @@
 import {setUpdateNotification, checkForUpdates} from 'electron-update-notifier';
+import environment from "../../environment";
 import store from '../config'
 
 let interval: NodeJS.Timeout;
 
 export default () => {
-  const isSnap = require('electron-is-snap').isSnap;
   clearInterval(interval);
 
   // Snap apps has automatic background updates already
-  if (isSnap) {
+  if (environment.isSnap) {
     return
   }
 
@@ -16,6 +16,7 @@ export default () => {
     return store.get('app.autoCheckForUpdates');
   }
 
+  // Runs once at startup
   setTimeout(() => {
     if (shouldCheckForUpdates()) {
       setUpdateNotification();
@@ -27,6 +28,4 @@ export default () => {
       checkForUpdates()
     }
   }, 1000 * 60 * 60 * 24);
-
-  return interval
 }
