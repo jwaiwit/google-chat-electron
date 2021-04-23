@@ -2,7 +2,7 @@ import {app, dialog, nativeImage, clipboard, BrowserWindow} from 'electron';
 import path from 'path';
 import os from 'os';
 
-// The default Electron about window does not load app icon from asar
+// The default Electron AboutWindow does not load app icon from asar
 // So lets create a custom dialog instead
 export default (window: BrowserWindow) => {
   const packageJson = require(path.join(app.getAppPath(), 'package.json'));
@@ -29,11 +29,8 @@ export default (window: BrowserWindow) => {
 }
 
 const getDetails = () => {
-  const isSnap = require('electron-is-snap').isSnap
-
   return [
     'App Version: ' + app.getVersion(),
-    'Installed via : ' + (isSnap ? 'snap' : 'deb'),
     'Electron version: ' + process.versions.electron,
     'Platform: ' + [os.type(), os.release(), os.arch()].join(', '),
     'OS: ' + os.version(),

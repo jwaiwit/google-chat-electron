@@ -1,13 +1,13 @@
 import {BrowserWindow, dialog, shell} from 'electron';
 import log from "electron-log";
 
-let guardAgainstExternalLinks: Boolean = true;
-const RE_GUARD_IN_MINUTES: number = 5;
+let guardAgainstExternalLinks = true;
+const RE_GUARD_IN_MINUTES = 5;
 let interval: NodeJS.Timeout;
 
 export default (window: BrowserWindow) => {
   const handleRedirect = (event: Event, url: string) => {
-    if (url === 'about:blank') {
+    if (!isValidHttpUrl(url)) {
       event.preventDefault();
       return false;
     }
@@ -48,6 +48,19 @@ export default (window: BrowserWindow) => {
 
 function extractHostname(url: string) {
   return (new URL(url)).hostname;
+}
+
+// https://stackoverflow.com/questions/5717093
+function isValidHttpUrl(input: string) {
+  let url;
+
+  try {
+    url = new URL(input);
+  } catch (error: any) {
+    return false;
+  }
+
+  return url.protocol === "http:" || url.protocol === "https:";
 }
 
 const toggleExternalLinksGuard = (window: BrowserWindow) => {
