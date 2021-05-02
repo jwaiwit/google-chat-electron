@@ -3,6 +3,7 @@
   "version": "2.0.2",
   "description": "Unofficial desktop app for Google Chat.",
   "main": "lib/main/index.js",
+  "email": "jwaiwit@gmail.com",
   "private": true,
   "scripts": {
     "pretest": "yarn run ts",
@@ -25,7 +26,26 @@
     "prebuild:snap": "yarn run build:snap-template",
     "build:snap": "sg lxd -c 'snapcraft --use-lxd'",
     "build:snap-repack": "bash ./snap/local/repack.sh",
-    "debit": "npm run clean:dist && npm run build && npm run build:deb"
+    "debit": "npm run clean:dist && npm run build && npm run build:deb",
+    "dist": "npm run clean:dist && electron-builder"
+  },
+  "build": {    
+    "appId": "Google Chat Electron",   
+    "directories" : {
+      "buildResources": "build"
+    },
+    "linux": {
+      "desktop": {
+        "Name": "Google Chat Linux"
+      },
+      "maintainer": "$npm_package_email",
+      "category": "Network;InstantMessaging",
+      "target": [
+        "appimage",
+        "pacman",
+        "deb"
+      ]
+    }
   },
   "repository": "https://github.com/ankurk91/google-chat-electron",
   "homepage": "https://github.com/ankurk91/google-chat-electron",
@@ -44,7 +64,8 @@
     "rimraf": "^3.0.2",
     "spectron": "^14.0.0",
     "ts-node": "^9.1.1",
-    "typescript": "^4.2.4"
+    "typescript": "^4.2.4",
+    "electron-builder": "^22.10.5"
   },
   "dependencies": {
     "auto-launch": "^5.0.5",
