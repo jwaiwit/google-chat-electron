@@ -7,16 +7,8 @@ export default (window: BrowserWindow) => {
 
   const handleIconClick = () => {
     if (window.isVisible() && window.isFocused()) {
-<<<<<<< HEAD
       window.show()
       window.focus()
-=======
-      if (is.macos) {
-        app.hide()
-      } else {
-        window.hide()
-      }
->>>>>>> origin/master
     } else {
       window.show()
       window.focus()

@@ -40,13 +40,16 @@ const setTray = (trayIcon: Tray, state: string) => {
   
   let icon = nativeImage.createFromPath(path.join(app.getAppPath(), `resources/icons/${state}/256.png`)) 
   trayIcon.setImage(icon);
+  //console.log(path.join(app.getAppPath(), `resources/icons/${state}/256.png`))
+  //console.log(icon)
 }
 
 export default (window: BrowserWindow, trayIcon: Tray) => {
 
   ipcMain.on('faviconChanged', (evt, href) => {
+    
     const type = decideIcon(String(href));
-
+    //console.log(href + "->>>>>>>>>>>>>" + type)
     if (type == 'badge') {
       if (!blinkIconTimer) {
         blinkIconTimer = setInterval(blinkIcon, 500, trayIcon); 

@@ -29,9 +29,9 @@
     "debit": "npm run clean:dist && npm run build && npm run build:deb",
     "dist": "npm run clean:dist && electron-builder"
   },
-  "build": {    
-    "appId": "Google Chat Electron",   
-    "directories" : {
+  "build": {
+    "appId": "Google Chat Electron",
+    "directories": {
       "buildResources": "build"
     },
     "linux": {
