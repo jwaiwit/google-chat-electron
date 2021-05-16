@@ -26,6 +26,7 @@ import overrideUserAgent from './features/userAgent';
 import logFirstLaunch from './features/firstLaunch';
 import handleNotification from './features/handleNotification';
 import {enforceMacOSAppLocation} from "electron-util";
+import darkReader from './features/darkReader';
 
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.
@@ -62,6 +63,8 @@ if (enforceSingleInstance()) {
       //   mainWindow.webContents.executeJavaScript(customScriptUrl, true);
       // })
       //enforceMacOSAppLocation()
+      //enforceMacOSAppLocation();
+      darkReader(mainWindow);
     })
 }
 

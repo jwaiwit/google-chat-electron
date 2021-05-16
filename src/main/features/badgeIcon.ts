@@ -1,5 +1,6 @@
 import {ipcMain, app, nativeImage, BrowserWindow, Tray} from 'electron';
 import path from 'path';
+import {is} from "electron-util";
 
 let iconTicking = 0; 
 let blinkIconTimer = 0;

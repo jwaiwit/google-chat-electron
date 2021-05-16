@@ -12,7 +12,11 @@ type StoreType = {
     autoCheckForUpdates: boolean,
     launchAtLogin: boolean,
     startHidden: boolean,
+<<<<<<< HEAD
     userIndex:number,
+=======
+    darkReader: boolean,
+>>>>>>> master
   }
 }
 
@@ -67,6 +71,10 @@ const schema: Store.Schema<StoreType> = {
         type: 'boolean',
         default: false
       },
+      darkReader: {
+        type: 'boolean',
+        default: false
+      }
     },
     default: {}
   }
