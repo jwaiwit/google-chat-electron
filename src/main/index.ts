@@ -35,7 +35,6 @@ let trayIcon = null;
 const fs = require('fs');
 
 // Features
-app.commandLine.appendSwitch('disk-cache-size', String(300 * 1024 * 1024));
 reportExceptions();
 
 if (enforceSingleInstance()) {
